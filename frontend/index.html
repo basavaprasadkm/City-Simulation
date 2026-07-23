@@ -1,143 +1,113 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>NeoVille — Live Simulation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="setup-screen" class="setup-wrap">
-      <div class="eyebrow">Civic AI Division — Simulation Bureau</div>
-      <h1>NeoVille</h1>
-      <p class="desc">
-        Found a town, watch every citizen live their day in real time, and
-        question any of them directly.
-      </p>
-      <div class="field">
-        <label>Town Name</label>
-        <input type="text" id="f-name" value="NeoVille" />
-      </div>
-      <div class="field">
-        <label>Real-World Location</label>
-        <input
-          type="text"
-          id="f-location"
-          value="Rajeev Institute of Technology, Hassan, Karnataka"
-        />
-      </div>
-      <div class="field">
-        <label>Population <span class="range-val" id="pop-val">8</span></label>
-        <input type="range" id="f-pop" min="5" max="10" value="8" />
-      </div>
-      <div class="field">
-        <label>Weather</label>
-        <select id="f-weather">
-          <option>Dynamic / Seasonal</option>
-          <option>Rainy</option>
-          <option>Dry &amp; Hot</option>
-          <option>Temperate</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Starting Economy</label>
-        <select id="f-econ">
-          <option>Medium</option>
-          <option>Struggling</option>
-          <option>Booming</option>
-        </select>
-      </div>
-      <button class="btn" id="btn-generate">Generate World</button>
-      <div id="setup-status" class="loading-line" style="display: none">
-        <div class="spinner"></div>
-        <span id="setup-status-text"></span>
-      </div>
-      <p
-        id="setup-error"
-        style="color: #c0563b; font-size: 12px; margin-top: 12px; display: none"
-      ></p>
+<head>
+<meta charset="UTF-8" />
+<title>NeoVille — Live Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="login-screen" class="setup-wrap">
+    <div class="eyebrow">Civic AI Division — Restricted Access</div>
+    <h1>NeoVille</h1>
+    <p class="desc">Sign in to found and run a simulation.</p>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="login-username" autocomplete="username" />
     </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-password" autocomplete="current-password" />
+    </div>
+    <button class="btn" id="btn-login">Log In</button>
+    <div id="login-status" class="loading-line" style="display:none;"><div class="spinner"></div><span>Checking...</span></div>
+    <p id="login-error" style="color:#C0563B;font-size:12px;margin-top:12px;display:none;"></p>
+  </div>
 
-    <div id="town-screen" style="display: none">
-      <header class="bureau">
-        <div>
-          <div class="eyebrow">Civic AI Division — Live Simulation</div>
-          <h1 id="town-name">NeoVille</h1>
-          <div class="sub" id="town-sub"></div>
+  <div id="setup-screen" class="setup-wrap" style="display:none;">
+    <div class="eyebrow">Civic AI Division — Simulation Bureau</div>
+    <h1>NeoVille</h1>
+    <p class="desc">Found a town, watch every citizen live their day in real time, and question any of them directly.</p>
+    <div class="field">
+      <label>Town Name</label>
+      <input type="text" id="f-name" value="NeoVille" />
+    </div>
+    <div class="field">
+      <label>Real-World Location</label>
+      <input type="text" id="f-location" value="Rajeev Institute of Technology, Hassan, Karnataka" />
+    </div>
+    <div class="field">
+      <label>Population <span class="range-val" id="pop-val">8</span></label>
+      <input type="range" id="f-pop" min="5" max="10" value="8" />
+    </div>
+    <div class="field">
+      <label>Weather</label>
+      <select id="f-weather">
+        <option>Dynamic / Seasonal</option>
+        <option>Rainy</option>
+        <option>Dry &amp; Hot</option>
+        <option>Temperate</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Starting Economy</label>
+      <select id="f-econ">
+        <option>Medium</option>
+        <option>Struggling</option>
+        <option>Booming</option>
+      </select>
+    </div>
+    <button class="btn" id="btn-generate">Generate World</button>
+    <div id="setup-status" class="loading-line" style="display:none;"><div class="spinner"></div><span id="setup-status-text"></span></div>
+    <p id="setup-error" style="color:#C0563B;font-size:12px;margin-top:12px;display:none;"></p>
+  </div>
+
+  <div id="town-screen" style="display:none;">
+    <header class="bureau">
+      <div>
+        <div class="eyebrow">Civic AI Division — Live Simulation</div>
+        <h1 id="town-name">NeoVille</h1>
+        <div class="sub" id="town-sub"></div>
+      </div>
+      <div class="clock-badge">
+        <div class="day-line">DAY <span id="clock-day">0</span></div>
+        <div class="time-line" id="clock-time">--:--</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="panel controls">
+        <h3>Bureau Controls</h3>
+        <button class="btn" id="btn-advance" style="width:100%;margin-bottom:14px;" title="Click to advance the simulation to the next day">Advance Day &#9656;</button>
+
+        <div class="label">Trigger an Event</div>
+        <textarea id="event-input" class="event-textarea" placeholder="Type an event, e.g. 'a gas leak is reported near the Market' &mdash; leave blank for a random event"></textarea>
+        <button class="btn secondary" id="btn-event" style="width:100%;margin:8px 0 16px;" title="Click to simulate the typed event (or a random one if left blank)">Trigger Event</button>
+        <div id="control-status" class="loading-line" style="display:none;"><div class="spinner"></div><span id="control-status-text"></span></div>
+
+        <div class="label" style="margin-top:16px;">Dispatch Log</div>
+        <div id="log-list" class="log-list"></div>
+      </div>
+
+      <div class="map-wrap">
+        <div id="town-map" class="town-map"></div>
+      </div>
+
+      <div>
+        <div class="panel" id="event-report-panel" style="margin-bottom:16px;display:none;">
+          <h3>Last Event Report</h3>
+          <div id="event-report-body"></div>
         </div>
-        <div class="clock-badge">
-          <div class="day-line">DAY <span id="clock-day">0</span></div>
-          <div class="time-line" id="clock-time">--:--</div>
-        </div>
-      </header>
-
-      <div class="layout">
-        <div class="panel controls">
-          <h3>Bureau Controls</h3>
-          <button
-            class="btn"
-            id="btn-advance"
-            style="width: 100%; margin-bottom: 14px"
-            title="Click to advance the simulation to the next day"
-          >
-            Advance Day &#9656;
-          </button>
-
-          <div class="label">Trigger an Event</div>
-          <textarea
-            id="event-input"
-            class="event-textarea"
-            placeholder="Type an event, e.g. 'a gas leak is reported near the Market' &mdash; leave blank for a random event"
-          ></textarea>
-          <button
-            class="btn secondary"
-            id="btn-event"
-            style="width: 100%; margin: 8px 0 16px"
-            title="Click to simulate the typed event (or a random one if left blank)"
-          >
-            Trigger Event
-          </button>
-          <div id="control-status" class="loading-line" style="display: none">
-            <div class="spinner"></div>
-            <span id="control-status-text"></span>
-          </div>
-
-          <div class="label" style="margin-top: 16px">Dispatch Log</div>
-          <div id="log-list" class="log-list"></div>
-        </div>
-
-        <div class="map-wrap">
-          <div id="town-map" class="town-map"></div>
-        </div>
-
-        <div>
-          <div
-            class="panel"
-            id="event-report-panel"
-            style="margin-bottom: 16px; display: none"
-          >
-            <h3>Last Event Report</h3>
-            <div id="event-report-body"></div>
-          </div>
-          <div class="panel detail-panel" id="detail-panel">
-            <div class="empty-note">
-              Click a citizen on the map to see their profile, schedule, and ask
-              them something.
-            </div>
-          </div>
+        <div class="panel detail-panel" id="detail-panel">
+          <div class="empty-note">Click a citizen on the map to see their profile, schedule, and ask them something.</div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="app.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
 </html>

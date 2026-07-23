@@ -1,12 +1,11 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import os
+import secrets
 from pydantic import BaseModel
 from pathlib import Path
 import random
-import sys
-
-sys.path.insert(0, str(Path(__file__).parent))
 
 from llm import call_llm, call_llm_json, LLMError
 import osm
@@ -34,6 +33,33 @@ def generic_layout(lat, lon):
     return [{"name": n, "emoji": e, "category": cat, "lat": lat + dlat, "lon": lon + dlon} for n, e, cat, dlat, dlon in offsets]
 
 app = FastAPI(title="NeoVille Simulation Engine")
+
+# ---- Simple login gate. Credentials come from environment variables (set
+# them in backend/.env) -- never hardcode real credentials in source code
+# that might get pushed to GitHub. ----
+LOGIN_USERNAME = os.getenv("LOGIN_USERNAME", "admin")
+LOGIN_PASSWORD = os.getenv("LOGIN_PASSWORD", "changeme")
+VALID_SESSIONS = set()  # in-memory; clears on server restart, same as world state
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+def require_auth(x_session_token: str = Header(default=None)):
+    if not x_session_token or x_session_token not in VALID_SESSIONS:
+        raise HTTPException(401, "Not logged in.")
+    return True
+
+
+@app.post("/api/login")
+def login(req: LoginRequest):
+    if req.username == LOGIN_USERNAME and req.password == LOGIN_PASSWORD:
+        token = secrets.token_hex(24)
+        VALID_SESSIONS.add(token)
+        return {"token": token}
+    raise HTTPException(401, "Incorrect username or password.")
 
 app.add_middleware(
     CORSMiddleware,
@@ -106,7 +132,7 @@ def resolve_buildings(location: str, place_label: str):
 
 
 @app.post("/api/generate-world")
-def generate_world(req: WorldRequest):
+def generate_world(req: WorldRequest, _auth: bool = Depends(require_auth)):
     place_label = req.location.split(",")[0].strip() or req.name
     buildings, is_real, center = resolve_buildings(req.location, place_label)
     building_names = [b["name"] for b in buildings]
@@ -165,7 +191,7 @@ Return this exact JSON shape:
 
 
 @app.get("/api/state")
-def get_state():
+def get_state(_auth: bool = Depends(require_auth)):
     return {
         "world": STATE["world"],
         "buildings": STATE["buildings"],
@@ -178,7 +204,7 @@ def get_state():
 
 
 @app.post("/api/advance-day")
-def advance_day():
+def advance_day(_auth: bool = Depends(require_auth)):
     if not STATE["citizens"]:
         raise HTTPException(400, "Generate a world first.")
 
@@ -243,7 +269,7 @@ Return this exact JSON shape, and nothing else:
 
 
 @app.post("/api/trigger-event")
-def trigger_event(req: TriggerEventRequest):
+def trigger_event(req: TriggerEventRequest, _auth: bool = Depends(require_auth)):
     if not STATE["citizens"]:
         raise HTTPException(400, "Generate a world first.")
 
@@ -323,7 +349,7 @@ def _current_hour_estimate():
 
 
 @app.post("/api/citizen/{cid}/ask")
-def ask_citizen(cid: int, req: AskRequest):
+def ask_citizen(cid: int, req: AskRequest, _auth: bool = Depends(require_auth)):
     c = find_citizen(cid)
     system = (
         f"You are {c['name']}, a {c['age']}-year-old {c['occupation']} in NeoVille. "
@@ -343,7 +369,7 @@ def ask_citizen(cid: int, req: AskRequest):
 
 
 @app.post("/api/reset")
-def reset():
+def reset(_auth: bool = Depends(require_auth)):
     STATE["world"] = None
     STATE["buildings"] = []
     STATE["center"] = None
