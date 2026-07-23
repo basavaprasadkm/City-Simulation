@@ -1,379 +1,326 @@
-/* NeoVille — Custom Dashboard Stylesheet */
+/* NeoVille — Handcrafted SaaS Dashboard Stylesheet */
 
 :root {
-  --scrollbar-bg: #070a0e;
-  --scrollbar-thumb: #1e293b;
-  --scrollbar-thumb-hover: #334155;
+  --bg-primary: #09090b;
+  --bg-secondary: #18181b;
+  --border-color: #27272a;
   
-  --marker-glow-cyan: 0 0 12px rgba(6, 182, 212, 0.6);
-  --marker-glow-amber: 0 0 12px rgba(245, 158, 11, 0.6);
-  --marker-glow-selected: 0 0 18px #06b6d4, 0 0 0 4px rgba(6, 182, 212, 0.2);
+  --scrollbar-bg: #09090b;
+  --scrollbar-thumb: #27272a;
+  --scrollbar-thumb-hover: #3f3f46;
 }
 
-/* Custom Scrollbar Styles */
+/* Base resets & scrollbars */
+body {
+  background-color: var(--bg-primary);
+}
+
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background: var(--scrollbar-bg);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
-  border-radius: 4px;
+  border-radius: 2px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
 }
 
-/* Base Customizations */
-body {
-  background-color: #070a0e;
+/* Custom inputs & sliders */
+input[type="range"] {
+  background: #27272a;
 }
-
-/* Input Range Slider Customizations */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #06b6d4;
+  background: #f4f4f5;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-  transition: all 0.15s ease-in-out;
+  border: 1px solid #27272a;
+  transition: background-color 0.1s ease;
 }
 input[type="range"]::-webkit-slider-thumb:hover {
-  background: #22d3ee;
-  transform: scale(1.2);
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+  background: #ffffff;
 }
 input[type="range"]::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: #06b6d4;
+  background: #f4f4f5;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-  transition: all 0.15s ease-in-out;
-  border: none;
+  border: 1px solid #27272a;
+  transition: background-color 0.1s ease;
 }
 input[type="range"]::-moz-range-thumb:hover {
-  background: #22d3ee;
-  transform: scale(1.2);
-  box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+  background: #ffffff;
 }
 
-/* Leaflet Container Overrides */
+/* Leaflet Container & Zoom Controls */
 .leaflet-container {
-  background-color: #070a0e !important;
-  font-family: "Plus Jakarta Sans", sans-serif !important;
+  background-color: var(--bg-primary) !important;
+  font-family: "Inter", sans-serif !important;
 }
 
-/* Zoom controls customization */
 .leaflet-bar {
-  border: 1px solid #1e293b !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  border-radius: 8px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+  border-radius: 4px !important;
   overflow: hidden;
 }
 .leaflet-bar a {
-  background-color: #0c121a !important;
-  border-bottom: 1px solid #1e293b !important;
-  color: #94a9be !important;
-  width: 32px !important;
-  height: 32px !important;
-  line-height: 32px !important;
-  transition: all 0.2s ease;
+  background-color: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: #a1a1aa !important;
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: 14px !important;
+  transition: all 0.1s ease;
 }
 .leaflet-bar a:hover {
-  background-color: #151e2a !important;
-  color: #fff !important;
+  background-color: #27272a !important;
+  color: #ffffff !important;
 }
 .leaflet-bar a.leaflet-disabled {
-  background-color: #070a0e !important;
-  color: #475569 !important;
+  background-color: var(--bg-primary) !important;
+  color: #52525b !important;
 }
 
-/* Custom Leaflet Map Markers */
+/* Building Icon Markers */
 .building-icon-inner {
   text-align: center;
   pointer-events: auto;
   cursor: pointer;
   transform: translateY(-50%);
   display: flex;
-  flex-col: column;
+  flex-direction: column;
   align-items: center;
 }
 .building-icon-inner .b-emoji {
-  font-size: 26px;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 4px rgba(6, 182, 212, 0.2));
-  transition: transform 0.2s ease;
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  transition: transform 0.15s ease;
 }
 .building-icon-inner:hover .b-emoji {
-  transform: scale(1.15) translateY(-2px);
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 8px rgba(6, 182, 212, 0.5));
+  transform: scale(1.1);
 }
 .building-icon-inner .b-label {
   font-family: "Geist Mono", monospace;
-  font-weight: 600;
-  font-size: 10px;
-  color: #c5d3e0;
-  margin-top: 3px;
+  font-weight: 500;
+  font-size: 9px;
+  color: #d4d4d8;
+  margin-top: 2px;
   white-space: nowrap;
-  background: rgba(7, 10, 14, 0.92);
-  padding: 3px 7px;
-  border-radius: 6px;
-  border: 1px solid rgba(30, 41, 59, 0.8);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
+  background: rgba(9, 9, 11, 0.95);
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .building-icon-inner:hover .b-label {
-  color: #fff;
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+  color: #ffffff;
+  border-color: #52525b;
 }
 
-/* Citizen Dots styling */
+/* Citizen Dot Markers */
 .citizen-marker-wrap {
   overflow: visible !important;
 }
 .citizen-marker {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fbbf24, #f59e0b);
-  border: 2px solid #070a0e;
+  background: #27272a;
+  border: 2.5px solid #09090b;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 11px;
   cursor: pointer;
-  box-shadow: var(--marker-glow-amber);
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease, border-color 0.1s ease;
 }
 .citizen-marker:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.9);
+  transform: scale(1.15);
   z-index: 1000;
 }
 .citizen-marker.selected {
-  background: radial-gradient(circle at 35% 30%, #22d3ee, #06b6d4);
-  border-color: #070a0e;
-  box-shadow: var(--marker-glow-selected);
-  animation: marker-pulse 2s infinite;
-  transform: scale(1.1);
+  background: #f4f4f5;
+  border-color: #09090b;
+  box-shadow: 0 0 0 2px #d4d4d8, 0 4px 10px rgba(0,0,0,0.5);
+  z-index: 1001;
 }
 .citizen-marker .m-tag {
   position: absolute;
-  top: -22px;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%);
   font-family: "Geist Mono", monospace;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 9px;
-  color: #fff;
+  color: #a1a1aa;
   white-space: nowrap;
-  background: rgba(7, 10, 14, 0.9);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  opacity: 0.85;
-  transition: all 0.2s ease;
+  background: #18181b;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
   pointer-events: none;
+  opacity: 0.9;
+  transition: opacity 0.1s ease;
 }
 .citizen-marker.selected .m-tag {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 0 8px rgba(6, 182, 212, 0.2);
+  color: #ffffff;
+  border-color: #52525b;
   opacity: 1;
 }
 .citizen-marker:hover .m-tag {
   opacity: 1;
-  transform: translateX(-50%) translateY(-2px);
 }
 
-@keyframes marker-pulse {
-  0%, 100% {
-    box-shadow: 0 0 18px #06b6d4, 0 0 0 4px rgba(6, 182, 212, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 26px #06b6d4, 0 0 0 8px rgba(6, 182, 212, 0.4);
-  }
-}
-
-/* Animations */
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.15;
-    transform: scale(1.05);
-  }
-}
-.animate-pulse-slow {
-  animation: pulse-slow 8s ease-in-out infinite;
-}
-
-/* Leaflet Attribution styling override */
-.leaflet-control-attribution {
-  background: rgba(7, 10, 14, 0.85) !important;
-  color: #4c6175 !important;
-  font-size: 8px !important;
-  border-top-left-radius: 4px;
-  border-left: 1px solid #1e293b !important;
-  border-top: 1px solid #1e293b !important;
-}
-.leaflet-control-attribution a {
-  color: #6b8296 !important;
-}
-
-/* Dispatch log classes styling */
+/* Telemetry Logs list */
 .log-entry {
-  padding: 8px;
-  border-radius: 6px;
-  border-bottom: 1px solid rgba(30, 41, 59, 0.4);
-  transition: background-color 0.15s ease;
+  padding: 6px 8px;
+  border-bottom: 1px solid #18181b;
   line-height: 1.4;
+  transition: background-color 0.1s ease;
 }
 .log-entry:hover {
-  background-color: rgba(21, 30, 42, 0.4);
+  background-color: #18181b;
 }
 .log-entry .day-tag {
-  color: #f59e0b;
-  font-weight: 700;
-  margin-right: 8px;
-  background: rgba(245, 158, 11, 0.1);
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #a1a1aa;
+  font-weight: 600;
+  margin-right: 6px;
+  background: #27272a;
+  padding: 1px 3px;
+  border-radius: 2px;
   font-size: 9px;
 }
 
 /* Dynamic Schedule Items */
 .schedule-item {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   font-size: 11px;
-  padding: 8px 10px;
-  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-  transition: all 0.2s ease;
+  padding: 6px 8px;
+  border-bottom: 1px solid #18181b;
   align-items: center;
+  transition: background-color 0.1s ease;
 }
 .schedule-item.now {
-  background: rgba(245, 158, 11, 0.08) !important;
-  border-left: 3px solid #f59e0b !important;
-  color: #fff;
-  font-weight: 500;
+  background: #27272a !important;
+  border-left: 2px solid #f4f4f5 !important;
+  color: #ffffff;
 }
 .schedule-item .hr {
   font-family: "Geist Mono", monospace;
-  color: #f59e0b;
-  font-weight: 600;
+  color: #a1a1aa;
+  font-weight: 500;
   width: 44px;
   flex-shrink: 0;
 }
+.schedule-item.now .hr {
+  color: #ffffff;
+}
 .schedule-item .loc {
-  color: #06b6d4;
+  color: #a1a1aa;
   width: 100px;
   flex-shrink: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.schedule-item.now .loc {
+  color: #ffffff;
   font-weight: 500;
 }
 .schedule-item .act {
-  color: #94a9be;
+  color: #71717a;
   flex: 1;
-  line-height: 1.3;
 }
 .schedule-item.now .act {
-  color: #eef3f7;
+  color: #e4e4e7;
 }
 
 /* Dynamic Cognitive Memories */
 .memory-item {
   font-size: 11px;
-  color: #94a9be;
-  border-left: 2px solid #1e293b;
-  padding: 6px 0 6px 10px;
-  margin-bottom: 6px;
+  color: #a1a1aa;
+  border-left: 1.5px solid #27272a;
+  padding: 4px 0 4px 8px;
+  margin-bottom: 4px;
   line-height: 1.4;
-  background: rgba(12, 18, 26, 0.2);
-  border-radius: 0 4px 4px 0;
-  transition: all 0.15s ease;
 }
 .memory-item:hover {
-  border-left-color: #06b6d4;
-  color: #c5d3e0;
-  background: rgba(12, 18, 26, 0.4);
+  border-left-color: #52525b;
+  color: #ffffff;
 }
 
-/* Chat Styling */
+/* Chat bubble styling */
 .chat-msg {
   font-size: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   line-height: 1.4;
   max-width: 85%;
-  padding: 8px 12px;
-  border-radius: 12px;
+  padding: 6px 10px;
+  border-radius: 4px;
 }
 .chat-msg.user {
-  color: #eef3f7;
-  background-color: #1e293b;
+  color: #ffffff;
+  background-color: #27272a;
   align-self: flex-end;
-  border-bottom-right-radius: 2px;
   margin-left: auto;
 }
 .chat-msg.citizen {
-  color: #eef3f7;
-  background-color: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  border-bottom-left-radius: 2px;
+  color: #e4e4e7;
+  background-color: #18181b;
+  border: 1px solid var(--border-color);
   margin-right: auto;
 }
 
 /* Personality Traits progress bar */
 .trait-bar {
   flex: 1;
-  height: 6px;
-  background: #0c121a;
-  border-radius: 3px;
+  height: 4px;
+  background: #09090b;
+  border-radius: 2px;
   overflow: hidden;
-  border: 1px solid rgba(30, 41, 59, 0.4);
 }
 .trait-bar i {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, #0891b2, #06b6d4);
-  border-radius: 3px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #a1a1aa;
+  border-radius: 2px;
+  transition: width 0.4s ease-out;
 }
 .trait-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 6px;
   font-size: 11px;
 }
 .trait-row .tname {
   width: 90px;
-  color: #94a9be;
+  color: #71717a;
   font-family: "Geist Mono", monospace;
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 500;
 }
 
 /* Event reporting styles */
 .event-row {
-  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-  padding: 8px 0;
+  border-bottom: 1px solid #18181b;
+  padding: 6px 0;
   font-size: 11px;
   line-height: 1.4;
 }
@@ -381,37 +328,36 @@ input[type="range"]::-moz-range-thumb:hover {
   border-bottom: none;
 }
 .event-row .who {
-  font-weight: 600;
-  color: #eef3f7;
+  font-weight: 500;
+  color: #ffffff;
 }
 .event-row .aware-yes {
-  color: #10b981;
-  font-weight: 700;
-  font-size: 9px;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-}
-.event-row .aware-no {
-  color: #64748b;
+  color: #a1a1aa;
   font-weight: 600;
   font-size: 9px;
-  background: rgba(100, 116, 139, 0.1);
-  padding: 1px 4px;
-  border-radius: 3px;
-  border: 1px solid rgba(100, 116, 139, 0.2);
+  background: #27272a;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+.event-row .aware-no {
+  color: #52525b;
+  font-weight: 500;
+  font-size: 9px;
+  background: #09090b;
+  padding: 1px 3px;
+  border: 1px solid #18181b;
+  border-radius: 2px;
 }
 .event-report-narrative {
   font-size: 12px;
   line-height: 1.5;
-  color: #c5d3e0;
+  color: #d4d4d8;
 }
 .agency-chain {
   font-family: "Geist Mono", monospace;
   font-size: 9px;
-  color: #06b6d4;
-  margin-bottom: 4px;
+  color: #a1a1aa;
+  margin-bottom: 3px;
   line-height: 1.4;
 }
 
@@ -420,12 +366,24 @@ input[type="range"]::-moz-range-thumb:hover {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  margin-bottom: 6px;
-  padding: 4px 0;
-  border-bottom: 1px solid rgba(30, 41, 59, 0.2);
+  margin-bottom: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid #18181b;
 }
 .stat-row .v {
   font-family: "Geist Mono", monospace;
-  color: #06b6d4;
-  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Leaflet control attribution override */
+.leaflet-control-attribution {
+  background: rgba(9, 9, 11, 0.8) !important;
+  color: #52525b !important;
+  font-size: 8px !important;
+  border-top-left-radius: 2px;
+  border-left: 1px solid var(--border-color) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+.leaflet-control-attribution a {
+  color: #71717a !important;
 }

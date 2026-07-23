@@ -1,63 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<html lang="en" class="h-full bg-zinc-950 text-zinc-100">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NeoVille — Civic Simulation Bureau</title>
   
-  <!-- Premium Google Fonts -->
+  <!-- Inter & Geist Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Geist+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Leaflet CSS for Map -->
+  <!-- Leaflet Map CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Custom Tailwind Configuration -->
+  <!-- Custom Tailwind Configuration: Monochromatic, Professional, No Glows/Gradients -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
             mono: ['"Geist Mono"', 'monospace'],
           },
           colors: {
-            slate: {
-              950: '#070a0e',
-              900: '#0c121a',
-              800: '#151e2a',
-              700: '#222f3e',
-              600: '#344558',
-              500: '#4c6175',
-              400: '#6b8296',
-              300: '#94a9be',
-              200: '#c5d3e0',
-              100: '#eef3f7',
-            },
-            cyan: {
-              400: '#22d3ee',
-              500: '#06b6d4',
-              600: '#0891b2',
-            },
-            amber: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
+            zinc: {
+              950: '#09090b',
+              900: '#18181b',
+              800: '#27272a',
+              700: '#3f3f46',
+              600: '#52525b',
+              500: '#71717a',
+              400: '#a1a1aa',
+              300: '#d4d4d8',
+              200: '#e4e4e7',
+              100: '#f4f4f5',
             }
-          },
-          boxShadow: {
-            'glow-cyan': '0 0 25px rgba(6, 182, 212, 0.15)',
-            'glow-amber': '0 0 25px rgba(245, 158, 11, 0.15)',
-            'glow-cyan-btn': '0 0 15px rgba(6, 182, 212, 0.3)',
-            'glow-amber-btn': '0 0 15px rgba(245, 158, 11, 0.3)',
           }
         }
       }
@@ -67,243 +48,202 @@
   <!-- Application CSS Stylesheet -->
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="h-full font-sans antialiased overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-200">
+<body class="h-full font-sans antialiased overflow-x-hidden bg-zinc-950 text-zinc-100 selection:bg-zinc-800 selection:text-white">
 
-  <!-- Premium Abstract Background Grid and Orbs -->
-  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-    <!-- Cyber Grid -->
-    <div class="absolute inset-0 bg-[linear-gradient(to_right,#151e2a_1px,transparent_1px),linear-gradient(to_bottom,#151e2a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-35 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_80%,transparent_100%)]"></div>
-    <!-- Decorative Glowing Orbs -->
-    <div class="absolute top-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-cyan-500/10 blur-[120px] animate-pulse-slow"></div>
-    <div class="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] rounded-full bg-amber-500/5 blur-[150px] animate-pulse-slow"></div>
-  </div>
-
-  <!-- CONTAINER WRAPPERS -->
-  <div class="relative z-10 min-h-screen flex flex-col justify-center">
+  <!-- Main View Container -->
+  <div class="relative min-h-screen flex flex-col justify-center">
 
     <!-- 1. LOGIN SCREEN -->
-    <div id="login-screen" class="w-full max-w-[480px] mx-auto my-12 px-6">
-      <div class="backdrop-blur-xl bg-slate-950/80 border border-slate-800/80 shadow-glow-cyan rounded-2xl p-8 transition-all duration-300">
+    <div id="login-screen" class="w-full max-w-[400px] mx-auto px-4 my-12">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-6 shadow-xl">
         <!-- Logo Section -->
-        <div class="flex flex-col items-center mb-8">
-          <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 mb-4">
-            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-          </div>
-          <div class="font-mono text-[10px] tracking-[0.25em] text-cyan-400 font-semibold uppercase mb-1">Civic AI Division — Restricted Access</div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2 font-sans bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-400 to-amber-300">NeoVille</h1>
-          <p class="text-slate-400 text-xs text-center font-medium">Authentication required to deploy town simulation assets.</p>
+        <div class="mb-6">
+          <span class="font-mono text-[10px] tracking-wider text-zinc-500 uppercase font-semibold">Civic AI Console</span>
+          <h1 class="text-xl font-bold tracking-tight text-zinc-100 mt-0.5">Authorize Session</h1>
+          <p class="text-zinc-400 text-xs mt-1">Found and manage simulated civic environments.</p>
         </div>
 
         <!-- Form fields -->
-        <div class="space-y-5">
+        <div class="space-y-4">
           <div>
-            <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Username</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-              </div>
-              <input type="text" id="login-username" autocomplete="username" placeholder="Enter security handle..." 
-                     class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 shadow-inner pl-10 pr-4 py-3" />
-            </div>
+            <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Username</label>
+            <input type="text" id="login-username" autocomplete="username" placeholder="e.g. basavaprasadkm" 
+                   class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-sm focus:outline-none transition-colors px-3 py-2" />
           </div>
 
           <div>
-            <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Password</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-              </div>
-              <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••" 
-                     class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 shadow-inner pl-10 pr-4 py-3" />
-            </div>
+            <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Password</label>
+            <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••" 
+                   class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-sm focus:outline-none transition-colors px-3 py-2" />
           </div>
 
           <!-- Submit Button -->
-          <button id="btn-login" class="w-full relative group overflow-hidden bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono tracking-wider text-xs font-bold rounded-xl py-3.5 transition-all duration-300 shadow-glow-cyan-btn hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98] mt-6">
-            <span class="relative z-10 flex items-center justify-center gap-2">
-              LOG IN TO CONSOLE 
-              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-            </span>
+          <button id="btn-login" class="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-mono tracking-wider text-[11px] font-bold rounded py-2.5 transition-all mt-4">
+            ESTABLISH SESSION
           </button>
 
           <!-- Loading Indicator -->
-          <div id="login-status" class="hidden items-center justify-center gap-2.5 font-mono text-[11px] text-slate-400 mt-4">
-            <div class="w-3.5 h-3.5 border-2 border-slate-700 border-t-cyan-500 rounded-full animate-spin"></div>
-            <span>Contacting bureau core...</span>
+          <div id="login-status" class="hidden items-center justify-center gap-2 font-mono text-[10px] text-zinc-500 mt-3">
+            <div class="w-3 h-3 border border-zinc-700 border-t-zinc-300 rounded-full animate-spin"></div>
+            <span>Verifying credentials...</span>
           </div>
 
           <!-- Error Alert -->
-          <p id="login-error" class="hidden bg-red-950/30 border border-red-900/40 text-red-400 text-xs rounded-lg px-4 py-3 text-center mt-4 font-medium"></p>
+          <p id="login-error" class="hidden bg-red-950/20 border border-red-900/30 text-red-400 text-xs rounded p-3 text-center mt-3 font-medium"></p>
         </div>
       </div>
     </div>
 
     <!-- 2. SETUP SCREEN -->
-    <div id="setup-screen" class="w-full max-w-[540px] mx-auto my-12 px-6" style="display:none;">
-      <div class="backdrop-blur-xl bg-slate-950/80 border border-slate-800/80 shadow-glow-cyan rounded-2xl p-8 transition-all duration-300">
-        <!-- Logo Section -->
-        <div class="flex flex-col items-center mb-8">
-          <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 mb-4">
-            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-          </div>
-          <div class="font-mono text-[10px] tracking-[0.25em] text-cyan-400 font-semibold uppercase mb-1">Civic AI Division — Simulation Bureau</div>
-          <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2 font-sans bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-400 to-amber-300">Found World</h1>
-          <p class="text-slate-400 text-xs text-center font-medium max-w-[360px] leading-relaxed">
-            Construct a live synthetic community. Watch citizens follow their daily routines, react to custom alerts, and talk to you.
-          </p>
+    <div id="setup-screen" class="w-full max-w-[480px] mx-auto px-4 my-12" style="display:none;">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-6 shadow-xl">
+        <!-- Header -->
+        <div class="mb-6">
+          <span class="font-mono text-[10px] tracking-wider text-zinc-500 uppercase font-semibold">Simulation Parameters</span>
+          <h1 class="text-xl font-bold tracking-tight text-zinc-100 mt-0.5">Build Simulation Graph</h1>
+          <p class="text-zinc-400 text-xs mt-1">Configure geographic coordinates and starting constraints.</p>
         </div>
 
         <!-- Form fields -->
-        <div class="space-y-5">
+        <div class="space-y-4">
           <div>
-            <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Town Name</label>
+            <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Town Name</label>
             <input type="text" id="f-name" value="NeoVille" placeholder="e.g. NeoVille"
-                   class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 shadow-inner px-4 py-3" />
+                   class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-sm focus:outline-none transition-colors px-3 py-2" />
           </div>
 
           <div>
-            <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Real-World Location</label>
-            <input type="text" id="f-location" value="Rajeev Institute of Technology, Hassan, Karnataka" placeholder="Address, city, or coordinate center..."
-                   class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 shadow-inner px-4 py-3" />
-            <p class="text-slate-500 text-[10px] mt-1.5 font-mono">Geocodes map POIs (markets, hospitals, shops) via OpenStreetMap.</p>
+            <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Geographic Location</label>
+            <input type="text" id="f-location" value="Rajeev Institute of Technology, Hassan, Karnataka" placeholder="Coordinates or real-world address..."
+                   class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-sm focus:outline-none transition-colors px-3 py-2" />
+            <p class="text-zinc-500 text-[10px] mt-1 font-mono">Location POIs are geocoded using OpenStreetMap.</p>
           </div>
 
-          <!-- Grid: Pop, Weather, Economy -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div class="sm:col-span-2">
-              <div class="flex justify-between items-center mb-2">
-                <label class="font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold">Population</label>
-                <span class="font-mono text-xs font-bold text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20" id="pop-val">8</span>
+          <!-- Slider and Dropdowns -->
+          <div class="space-y-4 pt-1">
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold">Citizen Nodes</label>
+                <span class="font-mono text-[11px] font-bold text-zinc-100" id="pop-val">8</span>
               </div>
               <input type="range" id="f-pop" min="5" max="10" value="8" 
-                     class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500" />
+                     class="w-full h-1 bg-zinc-850 rounded appearance-none cursor-pointer accent-zinc-100" />
             </div>
 
-            <div>
-              <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Weather</label>
-              <select id="f-weather" 
-                      class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 px-4 py-3 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%208.5L10%2013.5L15%208.5%22%20stroke%3D%22%2394a9be%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:1.25rem_1.25rem] bg-[right_1rem_center] bg-no-repeat">
-                <option value="Dynamic / Seasonal" class="bg-slate-900 text-slate-100">Dynamic / Seasonal</option>
-                <option value="Rainy" class="bg-slate-900 text-slate-100">Rainy</option>
-                <option value="Dry &amp; Hot" class="bg-slate-900 text-slate-100">Dry &amp; Hot</option>
-                <option value="Temperate" class="bg-slate-900 text-slate-100">Temperate</option>
-              </select>
-            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Weather State</label>
+                <select id="f-weather" 
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-xs focus:outline-none transition-colors px-3 py-2.5 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%208.5L10%2013.5L15%208.5%22%20stroke%3D%22%23a1a1aa%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:1rem_1rem] bg-[right_0.5rem_center] bg-no-repeat">
+                  <option value="Dynamic / Seasonal" class="bg-zinc-900">Dynamic / Seasonal</option>
+                  <option value="Rainy" class="bg-zinc-900">Rainy</option>
+                  <option value="Dry &amp; Hot" class="bg-zinc-900">Dry &amp; Hot</option>
+                  <option value="Temperate" class="bg-zinc-900">Temperate</option>
+                </select>
+              </div>
 
-            <div>
-              <label class="block font-mono text-[10px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Starting Economy</label>
-              <select id="f-econ" 
-                      class="w-full bg-slate-900/40 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-sm focus:outline-none transition-all duration-200 px-4 py-3 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%208.5L10%2013.5L15%208.5%22%20stroke%3D%22%2394a9be%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:1.25rem_1.25rem] bg-[right_1rem_center] bg-no-repeat">
-                <option value="Medium" class="bg-slate-900 text-slate-100">Medium</option>
-                <option value="Struggling" class="bg-slate-900 text-slate-100">Struggling</option>
-                <option value="Booming" class="bg-slate-900 text-slate-100">Booming</option>
-              </select>
+              <div>
+                <label class="block font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-semibold mb-1.5">Economy Level</label>
+                <select id="f-econ" 
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-xs focus:outline-none transition-colors px-3 py-2.5 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%208.5L10%2013.5L15%208.5%22%20stroke%3D%22%23a1a1aa%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[length:1rem_1rem] bg-[right_0.5rem_center] bg-no-repeat">
+                  <option value="Medium" class="bg-zinc-900">Medium</option>
+                  <option value="Struggling" class="bg-zinc-900">Struggling</option>
+                  <option value="Booming" class="bg-zinc-900">Booming</option>
+                </select>
+              </div>
             </div>
           </div>
 
           <!-- Generate Button -->
-          <button id="btn-generate" class="w-full relative group overflow-hidden bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-mono tracking-wider text-xs font-bold rounded-xl py-3.5 transition-all duration-300 shadow-glow-cyan-btn hover:shadow-[0_0_25px_rgba(6,182,212,0.4)] active:scale-[0.98] mt-6">
-            <span class="relative z-10 flex items-center justify-center gap-2">
-              BUILD WORLD GRAPH
-              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-            </span>
+          <button id="btn-generate" class="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-mono tracking-wider text-[11px] font-bold rounded py-2.5 transition-all mt-4">
+            COMPILE GRAPH AND RUN
           </button>
 
           <!-- Loading Indicator -->
-          <div id="setup-status" class="hidden flex-col items-center justify-center p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 gap-3 font-mono text-[11px] text-slate-300 mt-4 text-center">
-            <div class="w-5 h-5 border-2 border-slate-700 border-t-cyan-500 rounded-full animate-spin"></div>
-            <span id="setup-status-text" class="leading-relaxed">Generating simulation grid...</span>
+          <div id="setup-status" class="hidden flex-col items-center justify-center p-4 rounded bg-zinc-950 border border-zinc-850 gap-2 font-mono text-[10px] text-zinc-400 mt-3 text-center">
+            <div class="w-4 h-4 border border-zinc-700 border-t-zinc-300 rounded-full animate-spin mb-1"></div>
+            <span id="setup-status-text">Deploying simulation assets...</span>
           </div>
 
           <!-- Error Alert -->
-          <p id="setup-error" class="hidden bg-red-950/30 border border-red-900/40 text-red-400 text-xs rounded-lg px-4 py-3 text-center mt-4 font-medium"></p>
+          <p id="setup-error" class="hidden bg-red-950/20 border border-red-900/30 text-red-400 text-xs rounded p-3 text-center mt-3 font-medium"></p>
         </div>
       </div>
     </div>
 
     <!-- 3. TOWN SCREEN (MAIN DASHBOARD) -->
-    <div id="town-screen" class="w-full max-w-[1720px] mx-auto px-4 md:px-6 my-6 flex flex-col flex-1 h-[calc(100vh-3rem)] pointer-events-auto" style="display:none;">
+    <div id="town-screen" class="w-full max-w-[1600px] mx-auto px-4 md:px-6 my-6 flex flex-col flex-1 h-[calc(100vh-3rem)]" style="display:none;">
       
       <!-- Dashboard Header -->
-      <header class="flex items-center justify-between border-b border-slate-800/80 pb-4 mb-4 flex-wrap gap-4 z-10 relative">
-        <div class="flex items-center gap-3">
-          <div class="flex items-center justify-center w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
+      <header class="flex items-center justify-between border-b border-zinc-850 pb-4 mb-4 flex-wrap gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 id="town-name" class="text-lg font-bold tracking-tight text-zinc-100 font-sans">NeoVille</h1>
+            <span class="inline-flex items-center gap-1.5 font-mono text-[9px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              LIVE ENVIRONMENT
+            </span>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-mono text-[9px] tracking-wider uppercase text-cyan-400 font-bold px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">LIVE SIMULATION ENGINE</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            </div>
-            <h1 id="town-name" class="text-xl font-bold tracking-tight text-white font-sans mt-0.5">NeoVille</h1>
-            <div id="town-sub" class="text-slate-400 text-xs font-medium">Pop. 8 • Dynamic / Seasonal • Economy: Medium</div>
-          </div>
+          <div id="town-sub" class="text-zinc-400 text-xs mt-0.5 font-medium">Pop. 8 • Dynamic / Seasonal • Economy: Medium</div>
         </div>
         
-        <!-- Telemetry Clock Widget -->
-        <div class="flex items-center border border-amber-500/30 rounded-xl bg-slate-950/90 shadow-glow-amber px-5 py-2">
-          <div class="pr-4 border-r border-slate-800 text-left">
-            <span class="block font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase leading-none">DAY UNIT</span>
-            <span id="clock-day" class="font-mono text-lg font-bold text-slate-300 leading-none mt-1.5 block">0</span>
+        <!-- Digital Clock Badge -->
+        <div class="flex items-center border border-zinc-800 rounded bg-zinc-900 px-4 py-2 text-xs">
+          <div class="pr-3.5 border-r border-zinc-800 text-left">
+            <span class="block font-mono text-[9px] text-zinc-500 font-bold uppercase">DAY</span>
+            <span id="clock-day" class="font-mono text-sm font-bold text-zinc-300 mt-0.5 block">0</span>
           </div>
-          <div class="pl-4 text-left">
-            <span class="block font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase leading-none">SIMULATION CLOCK</span>
-            <div id="clock-time" class="font-mono text-lg font-bold text-amber-400 leading-none mt-1.5 tracking-wide">--:--</div>
+          <div class="pl-3.5 text-left">
+            <span class="block font-mono text-[9px] text-zinc-500 font-bold uppercase">CLOCK</span>
+            <div id="clock-time" class="font-mono text-sm font-bold text-zinc-100 mt-0.5">--:--</div>
           </div>
         </div>
       </header>
 
       <!-- Dashboard Layout Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr_360px] gap-5 flex-1 min-h-0 relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr_320px] gap-5 flex-1 min-h-0 relative overflow-hidden">
         
-        <!-- LEFT PANEL: Controls & Incident Dispatch -->
+        <!-- LEFT PANEL: Operations & Incident Feed -->
         <div class="flex flex-col gap-4 overflow-hidden min-h-0">
           
           <!-- Simulation Operations Panel -->
-          <div class="backdrop-blur-md bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 flex flex-col shrink-0">
-            <h3 class="font-mono text-[10px] tracking-wider uppercase text-cyan-400 font-bold mb-4 flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+          <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex flex-col shrink-0">
+            <h3 class="font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-bold mb-3 flex items-center gap-2">
+              <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
               Operations Console
             </h3>
             
             <button id="btn-advance" title="Click to advance the simulation to the next day"
-                    class="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono tracking-wider text-xs font-bold rounded-xl py-3 transition-all duration-300 shadow-glow-amber-btn hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] active:scale-[0.98] mb-5">
+                    class="w-full bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-mono tracking-wider text-[11px] font-bold rounded py-2 transition-all mb-4">
               ADVANCE DAY
-              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
 
             <!-- Trigger Event Sector -->
-            <div>
-              <label class="block font-mono text-[9px] tracking-wider uppercase text-slate-400 font-semibold mb-2">Simulate Custom Incident</label>
+            <div class="border-t border-zinc-800/80 pt-3">
+              <label class="block font-mono text-[9px] tracking-wider uppercase text-zinc-450 font-semibold mb-1.5">Inject Incident Alert</label>
               <textarea id="event-input" placeholder="e.g. 'a gas leak near the market' (leave blank for random)"
-                        class="w-full bg-slate-950/50 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-xs focus:outline-none transition-all duration-200 px-3.5 py-2.5 resize-none h-18 placeholder-slate-600 leading-relaxed"></textarea>
+                        class="w-full bg-zinc-950 border border-zinc-800 focus:border-zinc-500 rounded text-zinc-100 font-sans text-xs focus:outline-none transition-colors px-2.5 py-2 resize-none h-16 placeholder-zinc-700 leading-normal"></textarea>
               
               <button id="btn-event" title="Click to simulate the typed event (or a random one if left blank)"
-                      class="w-full bg-slate-900 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/40 font-mono tracking-wider text-[10px] font-bold rounded-xl py-2.5 mt-2 transition-all duration-200">
+                      class="w-full bg-zinc-950 hover:bg-zinc-800 text-zinc-100 border border-zinc-800 font-mono tracking-wider text-[10px] font-bold rounded py-2 mt-2 transition-all">
                 TRIGGER ALERT
               </button>
             </div>
 
             <!-- Panel Loading Status -->
-            <div id="control-status" class="hidden items-center justify-center p-3 rounded-lg bg-slate-950/60 border border-slate-800/80 gap-2 font-mono text-[10px] text-slate-400 mt-4 text-center">
-              <div class="w-3 h-3 border-2 border-slate-700 border-t-cyan-500 rounded-full animate-spin"></div>
-              <span id="control-status-text">Drafting daily itineraries...</span>
+            <div id="control-status" class="hidden items-center justify-center p-2.5 rounded bg-zinc-950 border border-zinc-850 gap-2 font-mono text-[10px] text-zinc-500 mt-3 text-center">
+              <div class="w-3 h-3 border border-zinc-700 border-t-zinc-400 rounded-full animate-spin"></div>
+              <span id="control-status-text">Drafting itineraries...</span>
             </div>
           </div>
 
           <!-- Dispatch logs -->
-          <div class="backdrop-blur-md bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 flex-1 flex flex-col min-h-0">
-            <h3 class="font-mono text-[10px] tracking-wider uppercase text-slate-400 font-bold mb-3 flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          <div class="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex-1 flex flex-col min-h-0">
+            <h3 class="font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-bold mb-2 flex items-center gap-2">
+              <svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
               Telemetry Feed
             </h3>
-            <div id="log-list" class="flex-1 overflow-y-auto pr-1 space-y-1.5 custom-scrollbar font-mono text-xs text-slate-400">
+            <div id="log-list" class="flex-1 overflow-y-auto pr-1 space-y-1 custom-scrollbar font-mono text-xs text-zinc-400">
               <!-- JS Injected logs -->
             </div>
           </div>
@@ -311,11 +251,11 @@
         </div>
 
         <!-- CENTER PANEL: Map Screen -->
-        <div class="flex flex-col overflow-hidden min-h-0 border border-slate-800/80 rounded-xl bg-slate-950 shadow-inner relative group">
-          <div class="absolute top-4 left-4 z-[400] pointer-events-none flex items-center gap-2">
-            <span class="font-mono text-[9px] tracking-widest text-white/80 bg-slate-900/90 border border-slate-800/80 rounded px-2 py-1 flex items-center gap-1.5 backdrop-blur shadow">
-              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              SATELLITE GROUND CONTROL
+        <div class="flex flex-col overflow-hidden min-h-0 border border-zinc-800 rounded-lg bg-zinc-950 relative">
+          <div class="absolute top-3 left-3 z-[400] pointer-events-none">
+            <span class="font-mono text-[9px] tracking-wider text-zinc-400 bg-zinc-900 border border-zinc-800 rounded px-2.5 py-1 flex items-center gap-1.5 shadow">
+              <span class="w-1.5 h-1.5 rounded-full bg-zinc-400"></span>
+              SATELLITE GROUND TRACKING
             </span>
           </div>
           <div id="town-map" class="w-full h-full bg-[#070a0e] relative z-0"></div>
@@ -325,25 +265,25 @@
         <div class="flex flex-col gap-4 overflow-hidden min-h-0">
           
           <!-- Event brief overlay panel -->
-          <div id="event-report-panel" class="backdrop-blur-md bg-amber-950/10 border border-amber-500/20 rounded-xl p-5 flex flex-col shrink-0 max-h-[40%] overflow-y-auto custom-scrollbar" style="display:none;">
-            <h3 class="font-mono text-[10px] tracking-wider uppercase text-amber-500 font-bold mb-3 flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-              Tactical Incident Briefing
+          <div id="event-report-panel" class="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex flex-col shrink-0 max-h-[35%] overflow-y-auto custom-scrollbar" style="display:none;">
+            <h3 class="font-mono text-[10px] tracking-wider uppercase text-zinc-400 font-bold mb-2 flex items-center gap-2">
+              <svg class="w-3.5 h-3.5 text-zinc-550" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              Tactical Incident Brief
             </h3>
-            <div id="event-report-body" class="space-y-4">
+            <div id="event-report-body" class="space-y-3">
               <!-- JS Injected Event Brief -->
             </div>
           </div>
 
           <!-- Citizen / Building detail panel -->
-          <div id="detail-panel" class="backdrop-blur-md bg-slate-900/50 border border-slate-800/80 rounded-xl p-5 flex-1 flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
+          <div id="detail-panel" class="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex-1 flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
             <!-- Default Empty State -->
-            <div class="flex-1 flex flex-col items-center justify-center text-center p-6 text-slate-500">
-              <div class="w-12 h-12 rounded-full border border-slate-800/60 flex items-center justify-center mb-4">
-                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+            <div class="flex-1 flex flex-col items-center justify-center text-center p-6 text-zinc-500">
+              <div class="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center mb-3">
+                <svg class="w-4 h-4 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </div>
-              <p class="text-xs font-semibold text-slate-400">Tactical Feed Offline</p>
-              <p class="text-[11px] text-slate-500 mt-1 max-w-[200px] leading-relaxed">Select a citizen marker or a building landmark on the map grid to stream telemetry profiles.</p>
+              <p class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider font-mono">Tactical Feed Offline</p>
+              <p class="text-xs text-zinc-500 mt-1 max-w-[200px] leading-relaxed">Select a citizen or a building landmark on the map grid to stream telemetry profiles.</p>
             </div>
           </div>
 

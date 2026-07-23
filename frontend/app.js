@@ -229,8 +229,8 @@ function currentLocationFor(c) {
 function renderLog() {
   const el = document.getElementById('log-list');
   el.innerHTML = state.log.slice().reverse().map(l =>
-    `<div class="log-entry flex items-start text-[11px] leading-relaxed"><span class="day-tag shrink-0">D${l.day}</span><span class="text-slate-350">${escapeHtml(l.text)}</span></div>`
-  ).join('') || '<p class="empty-note font-sans text-slate-500 italic p-4 text-center text-xs">No entries recorded in current simulation.</p>';
+    `<div class="log-entry flex items-start text-[11px] leading-relaxed"><span class="day-tag shrink-0">D${l.day}</span><span class="text-zinc-300 font-sans">${escapeHtml(l.text)}</span></div>`
+  ).join('') || '<p class="empty-note font-sans text-zinc-500 italic p-4 text-center text-xs">No logs recorded.</p>';
 }
 
 // ---------- simulated clock ----------
@@ -302,40 +302,40 @@ function renderEventReport() {
 
   const chainsHtml = ev.agent_reasoning.map(a =>
     `<div class="agency-chain flex items-center flex-wrap gap-1.5 py-1 text-[10px]">
-       <span class="px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-bold uppercase">${escapeHtml(a.role)}</span>
-       <span class="text-slate-500 font-sans">→</span>
-       <span class="text-slate-305">${a.chain.map(escapeHtml).join(' <span class="text-slate-650 font-sans">→</span> ')}</span>
+       <span class="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700 font-bold uppercase font-mono">${escapeHtml(a.role)}</span>
+       <span class="text-zinc-650 font-sans">→</span>
+       <span class="text-zinc-400">${a.chain.map(escapeHtml).join(' <span class="text-zinc-800 font-sans">→</span> ')}</span>
      </div>`
   ).join('');
 
   const awareCount = ev.citizen_report.filter(r => r.aware).length;
   const rowsHtml = ev.citizen_report.map(r => `
-    <div class="event-row py-2 border-b border-slate-900 last:border-b-0 flex flex-col gap-1">
+    <div class="event-row py-2 border-b border-zinc-950 last:border-b-0 flex flex-col gap-1">
       <div class="flex items-center justify-between flex-wrap gap-2">
         <div class="flex items-center gap-1.5">
-          <span class="${r.aware ? 'text-emerald-400' : 'text-slate-600'} font-bold">${r.aware ? '✓' : '✗'}</span>
-          <span class="font-semibold text-slate-200 text-xs">${escapeHtml(r.name)}</span>
-          <span class="text-[10px] text-slate-500 font-medium">(${escapeHtml(r.occupation)})</span>
+          <span class="${r.aware ? 'text-zinc-200' : 'text-zinc-600'} font-bold">${r.aware ? '✓' : '✗'}</span>
+          <span class="font-semibold text-zinc-200 text-xs">${escapeHtml(r.name)}</span>
+          <span class="text-[10px] text-zinc-500 font-medium">(${escapeHtml(r.occupation)})</span>
         </div>
         <span class="${r.aware ? 'aware-yes' : 'aware-no'}">${r.aware ? 'AWARE' : 'NOT AWARE'}</span>
       </div>
-      <p class="text-[11px] text-slate-400 italic font-medium pl-3">"${escapeHtml(r.reaction)}"</p>
+      <p class="text-[11px] text-zinc-400 italic font-medium pl-3">"${escapeHtml(r.reaction)}"</p>
     </div>
   `).join('');
 
   document.getElementById('event-report-body').innerHTML = `
-    <div class="border-b border-slate-800/80 pb-2 mb-2">
-      <div class="font-mono text-[9px] tracking-widest text-amber-500 font-bold uppercase mb-1">EVENT DISPATCHED</div>
+    <div class="border-b border-zinc-850 pb-2 mb-2">
+      <div class="font-mono text-[9px] tracking-widest text-zinc-450 font-bold uppercase mb-1">EVENT DISPATCHED</div>
       <div class="text-xs font-bold text-white">${escapeHtml(ev.event_name)}</div>
-      <div class="text-[10px] text-slate-400 mt-0.5 font-mono">${escapeHtml(ev.location)}</div>
+      <div class="text-[10px] text-zinc-550 mt-0.5 font-mono">${escapeHtml(ev.location)}</div>
     </div>
-    <div class="event-report-narrative text-xs text-slate-300 leading-relaxed font-medium italic border-l-2 border-amber-500/40 pl-3 py-1 mb-4">${escapeHtml(ev.narrative)}</div>
+    <div class="event-report-narrative text-xs text-zinc-350 leading-relaxed font-medium italic border-l-2 border-zinc-700 pl-3 py-1 mb-4">${escapeHtml(ev.narrative)}</div>
     
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2">AGENCY INVOLVEMENT</div>
+    <div class="font-mono text-[9px] tracking-widest text-zinc-500 font-bold uppercase mb-2">AGENCY INVOLVEMENT</div>
     <div class="space-y-1 mb-4">${chainsHtml}</div>
     
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2">CITIZEN DISPATCH RESPONSE (${awareCount}/${ev.citizen_report.length} aware)</div>
-    <div class="bg-slate-950/30 border border-slate-900 rounded-xl px-3.5 py-1.5 max-h-[160px] overflow-y-auto custom-scrollbar">${rowsHtml}</div>
+    <div class="font-mono text-[9px] tracking-widest text-zinc-500 font-bold uppercase mb-2">CITIZEN RESPONSE (${awareCount}/${ev.citizen_report.length} aware)</div>
+    <div class="bg-zinc-950 border border-zinc-850 rounded px-3.5 py-1.5 max-h-[160px] overflow-y-auto custom-scrollbar">${rowsHtml}</div>
   `;
 }
 
@@ -369,12 +369,12 @@ function renderDetail() {
   const c = state.citizens.find(x => x.id === selectedId);
   if (!c) {
     panel.innerHTML = `
-      <div class="flex-1 flex flex-col items-center justify-center text-center p-6 text-slate-500">
-        <div class="w-12 h-12 rounded-full border border-slate-800/60 flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+      <div class="flex-1 flex flex-col items-center justify-center text-center p-6 text-zinc-500">
+        <div class="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center mb-3">
+          <svg class="w-4 h-4 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
         </div>
-        <p class="text-xs font-semibold text-slate-400">Tactical Feed Offline</p>
-        <p class="text-[11px] text-slate-500 mt-1 max-w-[200px] leading-relaxed font-medium">Select a citizen marker or a building landmark on the map grid to stream telemetry profiles.</p>
+        <p class="text-[11px] font-semibold text-zinc-450 uppercase tracking-wider font-mono">Tactical Feed Offline</p>
+        <p class="text-xs text-zinc-500 mt-1 max-w-[200px] leading-relaxed font-medium">Select a citizen marker or a building landmark on the map grid to stream telemetry profiles.</p>
       </div>
     `;
     return;
@@ -389,9 +389,9 @@ function renderDetail() {
        <div class="loc">${escapeHtml(s.location)}</div>
        <div class="act">${escapeHtml(s.activity)}</div>
      </div>`;
-  }).join('') || '<p class="empty-note text-slate-500 italic p-3 text-center text-xs">No schedule mapped for today.</p>';
+  }).join('') || '<p class="empty-note text-zinc-500 italic p-3 text-center text-xs">No schedule mapped for today.</p>';
 
-  const memoriesHtml = (c.memories || []).slice().reverse().map(m => `<div class="memory-item text-[11px]">${escapeHtml(m)}</div>`).join('') || '<p class="empty-note text-slate-500 italic p-3 text-center text-xs">No cognitive logs recorded yet.</p>';
+  const memoriesHtml = (c.memories || []).slice().reverse().map(m => `<div class="memory-item text-[11px]">${escapeHtml(m)}</div>`).join('') || '<p class="empty-note text-zinc-500 italic p-3 text-center text-xs">No cognitive logs recorded yet.</p>';
 
   const chatHtml = (c.chat_history || []).map(m =>
     `<div class="chat-msg ${m.role === 'user' ? 'user' : 'citizen'}">${escapeHtml(m.text)}</div>`
@@ -399,24 +399,24 @@ function renderDetail() {
 
   panel.innerHTML = `
     <!-- Profile Header -->
-    <div class="flex items-center gap-4 mb-5 border-b border-slate-800/80 pb-4">
-      <div class="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500/10 to-teal-500/20 border border-cyan-500/30 text-2xl shadow-glow-cyan">
+    <div class="flex items-center gap-3.5 mb-5 border-b border-zinc-800 pb-4">
+      <div class="flex items-center justify-center w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 text-lg">
         ${occupationEmoji(c.occupation)}
       </div>
       <div>
-        <h2 class="text-sm font-bold text-white leading-tight">${escapeHtml(c.name)}</h2>
-        <div class="flex items-center gap-2 mt-1">
-          <span class="font-mono text-[9px] font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded uppercase">${escapeHtml(c.occupation)}</span>
-          <span class="text-slate-600 text-xs">•</span>
-          <span class="text-slate-400 text-[11px] font-semibold">Age ${c.age}</span>
-          <span class="text-slate-650 text-xs">•</span>
-          <span class="font-mono text-[10px] text-slate-500">ID-${String(c.id).padStart(3, '0')}</span>
+        <h2 class="text-sm font-semibold text-zinc-100 leading-none">${escapeHtml(c.name)}</h2>
+        <div class="flex items-center gap-2 mt-1.5">
+          <span class="font-mono text-[9px] font-bold text-zinc-300 bg-zinc-800 border border-zinc-750 px-1.5 py-0.5 rounded uppercase">${escapeHtml(c.occupation)}</span>
+          <span class="text-zinc-650 text-xs">•</span>
+          <span class="text-zinc-400 text-xs">Age ${c.age}</span>
+          <span class="text-zinc-650 text-xs">•</span>
+          <span class="font-mono text-[9px] text-zinc-500">ID-${String(c.id).padStart(3, '0')}</span>
         </div>
       </div>
     </div>
 
     <!-- Personality Matrix -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span> Personality Matrix</div>
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Personality Matrix</div>
     <div class="space-y-1 mb-4">
       ${Object.entries(traits).map(([k, v]) => `
         <div class="trait-row"><div class="tname">${k}</div><div class="trait-bar"><i style="width:${v}%;"></i></div></div>
@@ -424,50 +424,50 @@ function renderDetail() {
     </div>
 
     <!-- Status Grid -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span> Status telemetry</div>
-    <div class="grid grid-cols-2 gap-3 bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 mb-4">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Status Telemetry</div>
+    <div class="grid grid-cols-2 gap-3 bg-zinc-950 border border-zinc-850 rounded p-3 mb-4">
       <div class="flex flex-col">
-        <span class="font-mono text-[9px] tracking-wider text-slate-500 uppercase font-medium">Mood Profile</span>
-        <span class="text-xs font-bold text-white mt-0.5">${c.mood}%</span>
+        <span class="font-mono text-[9px] tracking-wider text-zinc-550 uppercase font-medium">Mood Profile</span>
+        <span class="text-xs font-bold text-zinc-200 mt-0.5">${c.mood}%</span>
       </div>
       <div class="flex flex-col">
-        <span class="font-mono text-[9px] tracking-wider text-slate-500 uppercase font-medium">Capital / Assets</span>
-        <span class="text-xs font-bold text-emerald-400 mt-0.5">₹${(c.money || 0).toLocaleString('en-IN')}</span>
+        <span class="font-mono text-[9px] tracking-wider text-zinc-550 uppercase font-medium">Capital / Assets</span>
+        <span class="text-xs font-bold text-zinc-200 mt-0.5">₹${(c.money || 0).toLocaleString('en-IN')}</span>
       </div>
-      <div class="col-span-2 flex flex-col border-t border-slate-900/60 pt-2.5 mt-1">
-        <span class="font-mono text-[9px] tracking-wider text-slate-500 uppercase font-medium">Core Directives</span>
-        <span class="text-xs text-slate-300 mt-1 leading-relaxed font-medium">${escapeHtml(c.goal)}</span>
+      <div class="col-span-2 flex flex-col border-t border-zinc-850/60 pt-2 mt-1">
+        <span class="font-mono text-[9px] tracking-wider text-zinc-550 uppercase font-medium">Core Directives</span>
+        <span class="text-xs text-zinc-300 mt-0.5 leading-normal font-medium">${escapeHtml(c.goal)}</span>
       </div>
       ${c.last_action ? `
-        <div class="col-span-2 flex flex-col border-t border-slate-900/60 pt-2.5 mt-1">
-          <span class="font-mono text-[9px] tracking-wider text-slate-500 uppercase font-medium">Active Task</span>
-          <span class="text-xs text-slate-300 mt-1 leading-relaxed font-medium">${escapeHtml(c.last_action)}</span>
+        <div class="col-span-2 flex flex-col border-t border-zinc-850/60 pt-2 mt-1">
+          <span class="font-mono text-[9px] tracking-wider text-zinc-550 uppercase font-medium">Active Task</span>
+          <span class="text-xs text-zinc-300 mt-0.5 leading-normal font-medium">${escapeHtml(c.last_action)}</span>
         </div>
       ` : ''}
     </div>
 
     <!-- Daily schedule timeline -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span> Daily schedule timeline</div>
-    <div class="schedule-list flex flex-col border border-slate-900 bg-slate-950/20 rounded-xl overflow-hidden max-h-[160px] overflow-y-auto custom-scrollbar mb-4">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Daily schedule timeline</div>
+    <div class="schedule-list flex flex-col border border-zinc-850 bg-zinc-950/20 rounded overflow-hidden max-h-[140px] overflow-y-auto custom-scrollbar mb-4">
       ${scheduleHtml}
     </div>
 
     <!-- Cognitive memory log -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span> Cognitive memory log</div>
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Cognitive memory log</div>
     <div class="space-y-1.5 max-h-[140px] overflow-y-auto custom-scrollbar mb-4 pr-1">
       ${memoriesHtml}
     </div>
 
-    <!-- Tactical Comm Query -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-cyan-500 rounded-full"></span> Security channel query</div>
-    <div class="flex-1 flex flex-col border border-slate-900 bg-slate-950/20 rounded-xl p-3 flex flex-col min-h-[220px]">
-      <div class="chat-thread flex-1 overflow-y-auto pr-1 custom-scrollbar flex flex-col space-y-2 mb-3 max-h-[160px]" id="chat-thread">
-        ${chatHtml || '<p class="empty-note text-slate-500 text-center font-sans text-[11px] italic my-auto">Transmit query via security channel...</p>'}
+    <!-- Security channel query -->
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Security channel query</div>
+    <div class="flex-1 flex flex-col border border-zinc-850 bg-zinc-950/20 rounded p-3 min-h-[200px]">
+      <div class="chat-thread flex-1 overflow-y-auto pr-1 custom-scrollbar flex flex-col space-y-1.5 mb-3 max-h-[160px]" id="chat-thread">
+        ${chatHtml || '<p class="empty-note text-zinc-500 text-center font-sans text-[11px] italic my-auto">Transmit query via security channel...</p>'}
       </div>
-      <div class="flex gap-2 items-center mt-auto border-t border-slate-900/60 pt-3">
-        <input type="text" id="chat-input" placeholder="Query activities, status, etc..." 
-               class="flex-1 bg-slate-900/60 border border-slate-800 focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40 rounded-xl text-slate-100 font-sans text-xs focus:outline-none transition-all duration-200 px-3.5 py-2.5 placeholder-slate-600" />
-        <button id="chat-send" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono tracking-wider text-[10px] font-bold rounded-xl px-4 py-2.5 transition-all duration-200 shadow-glow-cyan-btn shrink-0">
+      <div class="flex gap-2 items-center mt-auto border-t border-zinc-850/60 pt-3">
+        <input type="text" id="chat-input" placeholder="Query status or directives..." 
+               class="flex-1 bg-zinc-900 border border-zinc-800 focus:border-zinc-550 rounded text-zinc-100 font-sans text-xs focus:outline-none transition-colors px-3 py-2 placeholder-zinc-700" />
+        <button id="chat-send" class="bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-mono tracking-wider text-[10px] font-bold rounded px-3.5 py-2 shrink-0">
           ASK
         </button>
       </div>
@@ -486,7 +486,7 @@ function renderDetail() {
 
 function renderBuildingDetail(panel) {
   const b = state.buildings.find(x => x.name === selectedBuilding);
-  if (!b) { panel.innerHTML = '<div class="empty-note">Click a citizen or a building on the map to see more.</div>'; return; }
+  if (!b) { panel.innerHTML = '<div class="empty-note text-zinc-550">Click a citizen or a building on the map to see more.</div>'; return; }
 
   const residents = state.citizens.filter(c => c.home === b.name);
   const workers = state.citizens.filter(c => c.workplace === b.name);
@@ -494,51 +494,53 @@ function renderBuildingDetail(panel) {
 
   const listOrNone = (arr) => arr.length
     ? arr.map(c => `
-        <div class="flex items-center justify-between py-1.5 border-b border-slate-900/40 last:border-b-0">
+        <div class="flex items-center justify-between py-1.5 border-b border-zinc-850/60 last:border-b-0">
           <div class="flex items-center gap-2">
-            <span class="text-xs font-semibold text-slate-200">${escapeHtml(c.name)}</span>
-            <span class="text-[10px] text-slate-500">(${escapeHtml(c.occupation)})</span>
+            <span class="text-xs font-semibold text-zinc-200">${escapeHtml(c.name)}</span>
+            <span class="text-[10px] text-zinc-500">(${escapeHtml(c.occupation)})</span>
           </div>
         </div>
       `).join('')
-    : '<p class="text-xs text-slate-500 italic py-1">No citizens detected.</p>';
+    : '<p class="text-xs text-zinc-500 italic py-1">No citizens detected.</p>';
 
   panel.innerHTML = `
     <!-- Building Header -->
-    <div class="flex items-center gap-4 mb-5 border-b border-slate-800/80 pb-4">
-      <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500/10 to-amber-500/20 border border-amber-500/30 text-2xl shadow-glow-amber">
+    <div class="flex items-center gap-3.5 mb-5 border-b border-zinc-805 pb-4">
+      <div class="flex items-center justify-center w-10 h-10 rounded bg-zinc-800 border border-zinc-700 text-lg">
         ${b.emoji}
       </div>
       <div>
-        <h2 class="text-sm font-bold text-white leading-tight">${escapeHtml(b.name)}</h2>
-        <span class="inline-block mt-1 font-mono text-[9px] font-bold text-amber-500 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded uppercase">${escapeHtml(b.category || 'Landmark')}</span>
+        <h2 class="text-sm font-bold text-zinc-100 leading-none">${escapeHtml(b.name)}</h2>
+        <span class="inline-block mt-1.5 font-mono text-[9px] font-bold text-zinc-400 bg-zinc-800 border border-zinc-750 px-1.5 py-0.5 rounded uppercase">${escapeHtml(b.category || 'Landmark')}</span>
       </div>
     </div>
 
     <!-- Stats Grid -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Telemetry</div>
-    <div class="grid grid-cols-1 gap-2.5 bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 mb-4">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2.5 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Telemetry</div>
+    <div class="grid grid-cols-1 gap-2.5 bg-zinc-950 border border-zinc-850 rounded p-3 mb-4">
       <div class="flex justify-between items-center text-xs">
-        <span class="text-slate-500 font-medium">GPS Location</span>
-        <span class="font-mono font-semibold text-slate-350">${b.lat.toFixed(5)}, ${b.lon.toFixed(5)}</span>
+        <span class="text-zinc-500 font-medium">GPS Location</span>
+        <span class="font-mono font-semibold text-zinc-350">${b.lat.toFixed(5)}, ${b.lon.toFixed(5)}</span>
       </div>
     </div>
 
     <!-- Active Residents/Workers lists -->
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Detected Signals (${presentNow.length})</div>
-    <div class="bg-slate-950/20 border border-slate-900 rounded-xl px-3.5 py-1.5 max-h-[130px] overflow-y-auto custom-scrollbar mb-4">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-zinc-450 rounded-full"></span> Detected Signals (${presentNow.length})</div>
+    <div class="bg-zinc-950/20 border border-zinc-800 rounded px-3 py-1 max-h-[120px] overflow-y-auto custom-scrollbar mb-4">
       ${listOrNone(presentNow)}
     </div>
 
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Registered Inhabitants (${residents.length})</div>
-    <div class="bg-slate-950/20 border border-slate-900 rounded-xl px-3.5 py-1.5 max-h-[130px] overflow-y-auto custom-scrollbar mb-4">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Registered Inhabitants (${residents.length})</div>
+    <div class="bg-zinc-950/20 border border-zinc-800 rounded px-3 py-1 max-h-[120px] overflow-y-auto custom-scrollbar mb-4">
       ${listOrNone(residents)}
     </div>
 
-    <div class="font-mono text-[9px] tracking-widest text-slate-500 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Assigned Personnel (${workers.length})</div>
-    <div class="bg-slate-950/20 border border-slate-900 rounded-xl px-3.5 py-1.5 max-h-[130px] overflow-y-auto custom-scrollbar">
+    <div class="font-mono text-[9px] tracking-wider text-zinc-450 font-bold uppercase mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Assigned Personnel (${workers.length})</div>
+    <div class="bg-zinc-950/20 border border-zinc-800 rounded px-3 py-1 max-h-[120px] overflow-y-auto custom-scrollbar">
       ${listOrNone(workers)}
     </div>
+  `;
+} </div>
   `;
 }
 
