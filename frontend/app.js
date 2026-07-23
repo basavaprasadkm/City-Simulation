@@ -540,8 +540,6 @@ function renderBuildingDetail(panel) {
       ${listOrNone(workers)}
     </div>
   `;
-} </div>
-  `;
 }
 
 async function sendChat(cid) {
